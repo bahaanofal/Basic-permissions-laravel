@@ -26,6 +26,7 @@
 </div>
 <div class="mb-4">
     <select name="parent_id" class="form-select @error('parent_id') is-invalid @enderror" aria-label=".form-select-lg parentId">
+    <option value='' selected >No Parent</option>
         @foreach($parents as $parent)
         <option value="{{ $parent->id }}" @if($category->parent_id == $parent->id) selected @endif >{{ $parent->name }}</option>
         @endforeach
