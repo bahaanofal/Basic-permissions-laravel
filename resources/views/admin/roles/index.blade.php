@@ -8,8 +8,12 @@
                 <th scope="col">name</th>
                 <th scope="col">Created at</th>
                 <th scope="col">abilities</th>
+                @can('update', $roles)
                 <th scope="col"></th>
+                @endcan
+                @can('delete', $roles)
                 <th scope="col"></th>
+                @endcan
             </tr>
         </thead>
         <tbody>
@@ -19,7 +23,10 @@
                 <td>{{ $role->name }}</td>
                 <td>{{ count($role->abilities) }}</td>
                 <td>{{ $role->created_at }}</td>
+                @can('update', $role)
                 <td><a href="{{ route('roles.edit', $role->id) }}">edit</a></td>
+                @endcan
+                @can('delete', $role)
                 <td>
                     <form action="{{route('roles.destroy', $role->id)}}" method="post">
                         @csrf
@@ -27,6 +34,7 @@
                         <button class="btn btn-danger btn-sm">del</button>
                     </form>
                 </td>
+                @endcan
             </tr>
             @endforeach
         </tbody>

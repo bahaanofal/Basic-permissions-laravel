@@ -26,7 +26,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::resource('/admin/categories', CategoryController::class)->middleware('auth');
-Route::resource('/admin/roles', RolesController::class);
+Route::resource('/admin/roles', RolesController::class)->middleware('auth');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

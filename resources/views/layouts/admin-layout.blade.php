@@ -352,7 +352,16 @@
                 <div class="container-fluid">
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">{{$title}}</h1>
+                        @if($headButton == "Create Role")
+                        @can('create', App\Model\Role::class)
                         <a href="{{ $routeHeadButton }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">{{ $headButton }}</a>
+                        @endcan
+                        @endif
+                        @if($headButton == "Create Category")
+                        @can('create', App\Model\Category::class)
+                        <a href="{{ $routeHeadButton }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">{{ $headButton }}</a>
+                        @endcan
+                        @endif
                     </div>
                     {{ $slot }}
                 </div>

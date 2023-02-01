@@ -30,7 +30,7 @@
 
 
 <div class="mb-4">
-    <label style="color:black" for="abilities" class="form-label ">Abilities:</label>
+    <label style="color:black" for="abilities" class="form-label ">Users:</label>
     <div>
         @foreach($users as $user)
             <div class="mb-1">
