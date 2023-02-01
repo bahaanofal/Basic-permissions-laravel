@@ -19,6 +19,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        $this->authorize('view-any', Category::class);
+
         $categories = Category::latest()->paginate();
         $parents = Category::with('parent')->orderBy('name', 'asc')->get();
         return view('admin.categories.index', [
@@ -34,6 +36,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Category::class);
+
         $category = new Category();
         $parents = Category::all();
         return view('admin.categories.create', [
@@ -50,6 +54,8 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Category::class);
+
         $request->validate([
             'name' => 'required|alpha|min:3|max:50|unique:categories',
             'image_path' => 'nullable|image',
@@ -84,6 +90,8 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
+        $category = Category::findOrFail($id);
+        $this->authorize('view', $category);
         //
     }
 
@@ -96,6 +104,8 @@ class CategoryController extends Controller
     public function edit($id)
     {
         $category = Category::findOrFail($id);
+        $this->authorize('update', $category);
+
         $parents = Category::all()->except($id);
         return view('admin.categories.edit', [
             'category' => $category,
@@ -112,6 +122,8 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $category = Category::findOrFail($id);
+        $this->authorize('update', $category);
         $request->validate([
             'name' => 'required|string|min:3|max:50|unique:categories,name,'. $id,
             'image_path' => 'nullable|image',
@@ -149,6 +161,8 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $category = Category::findOrFail($id);
+        $this->authorize('delete', $category);
+
         $category->delete();
         Storage::disk('public')->delete($category->image_path);
         return redirect(route('categories.index'));

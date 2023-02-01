@@ -5,12 +5,12 @@
         @endforeach
     </div>
 @endif
-<x-admin-layout title="Edit Category" headButton="Categories" :routeHeadButton="route('categories.index')">
+<x-admin-layout title="Edit Role" headButton="Roles" :routeHeadButton="route('roles.index')">
 
-    <form action="{{ route('categories.update', $category->id) }}" method="post" enctype="multipart/form-data">
+    <form action="{{ route('roles.update', $role->id) }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('put')
-        @include('admin.categories._form', [
+        @include('admin.roles._form', [
             'button' => 'Update'    
         ]);
     </form>

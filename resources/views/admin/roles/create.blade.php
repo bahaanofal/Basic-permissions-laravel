@@ -5,11 +5,11 @@
         @endforeach
     </div>
 @endif
-<x-admin-layout title="Create Category" headButton="Categories" :routeHeadButton="route('categories.index')">
+<x-admin-layout title="Create Role" headButton="Roles" :routeHeadButton="route('roles.index')">
 
-    <form action="{{ route('categories.store') }}" method="post" enctype="multipart/form-data">
+    <form action="{{ route('roles.store') }}" method="post" enctype="multipart/form-data">
         @csrf
-        @include('admin.categories._form', [
+        @include('admin.roles._form', [
             'button' => 'Create'    
         ]);
     </form>

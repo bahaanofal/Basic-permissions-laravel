@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Role;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,7 +25,8 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::resource('/admin/categories', CategoryController::class);
+Route::resource('/admin/categories', CategoryController::class)->middleware('auth');
+Route::resource('/admin/roles', RolesController::class);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
