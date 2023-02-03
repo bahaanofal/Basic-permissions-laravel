@@ -21,6 +21,12 @@
 <div style="margin-top:1.5em; margin-bottom:1.5em;">
     <h5 style="color:black">Type:</h5>
     <div class="form-check">
+        <input class="form-check-input" type="radio" name="type" value='user' id="user" checked @if($user->type == 'user') checked @endif>
+        <label class="form-check-label" for="user">
+            User
+        </label>
+    </div>
+    <div class="form-check">
         <input class="form-check-input" type="radio" name="type" value='super-admin' id="super-admin" @if($user->type == 'super-admin') checked @endif>
         <label class="form-check-label" for="super-admin">
             Super Admin
@@ -30,12 +36,6 @@
         <input class="form-check-input" type="radio" name="type" value='admin' id="admin" @if($user->type == 'admin') checked @endif>
         <label class="form-check-label" for="admin">
             Admin
-        </label>
-    </div>
-    <div class="form-check">
-        <input class="form-check-input" type="radio" name="type" value='user' id="user" @if($user->type == 'user') checked @endif>
-        <label class="form-check-label" for="user">
-            User
         </label>
     </div>
     @error('type')

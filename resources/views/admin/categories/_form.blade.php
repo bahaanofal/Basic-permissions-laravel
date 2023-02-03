@@ -39,14 +39,14 @@
 <div style="margin-top:1.5em; margin-bottom:1.5em;">
     <h5 style="color:black">Status</h5>
     <div class="form-check">
-        <input class="form-check-input" type="radio" name="status" value='active' id="status-active" @if($category->status == 'active') checked @endif>
+        <input class="form-check-input" type="radio" name="status" value='active' id="status-active" checked @if($category->status == 'active') checked @endif>
         <label class="form-check-label" for="status-active">
             Active
         </label>
     </div>
     <div class="form-check">
         <input class="form-check-input" type="radio" name="status" value='inactive' id="status-inactive" @if($category->status == 'inactive') checked @endif>
-        <label class="form-check-label" for="status-draft">
+        <label class="form-check-label" for="status-inactive">
             In Active
         </label>
     </div>
