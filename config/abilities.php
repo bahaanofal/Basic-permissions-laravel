@@ -7,7 +7,7 @@ return [
     'categories.update' => 'Update Category',
     'categories.delete' => 'Delete Category',
 
-    'roles.view-any' => 'View all R oles',
+    'roles.view-any' => 'View all Roles',
     'roles.view' => 'View role',
     'roles.create' => 'Create role',
     'roles.update' => 'Update role',

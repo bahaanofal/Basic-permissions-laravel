@@ -42,4 +42,31 @@
     <div class="alert alert-danger">{{ $message }}</div>
     @enderror
 </div>
+
+<div class="mb-4">
+    <label style="color:black" for="permissions" class="form-label ">permissions:</label>
+    <div>
+        @foreach(config('abilities') as $key => $label)
+            <div class="mb-1">
+                <label for="">
+                    @if(in_array($key, $userAbilities))
+                    <input type="checkbox" name="permissions[]" value="{{$key}}" checked > 
+                    {{ $label }} => (by roles)
+                    @elseif(in_array($key, $user->permissions))
+                    <input type="checkbox" name="permissions[]" value="{{$key}}" checked >
+                    {{ $label }}
+                    @else
+                    <input type="checkbox" name="permissions[]" value="{{$key}}">
+                    {{ $label }}
+                    @endif
+                    
+                </label>
+            </div>
+        @endforeach
+    </div>
+    @error('permissions')
+    <p class="invalid-feedback">{{ $message }}</p>
+    @enderror
+</div>
+
 <button type="submit" class="btn btn-primary">{{$button}}</button>

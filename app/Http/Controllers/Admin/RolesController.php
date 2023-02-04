@@ -50,7 +50,7 @@ class RolesController extends Controller
         $this->authorize('create', Role::class);
         $request->validate([
             'name' => 'required|unique:roles',
-            'abilities' => 'required|array'
+            'abilities' => 'nullable|array'
         ]);
 
         Role::create($request->all());
@@ -115,7 +115,7 @@ class RolesController extends Controller
         $this->authorize('update', $role);
         $request->validate([
             'name' => 'required|unique:roles,name,'. $id,
-            'abilities' => 'required|array'
+            'abilities' => 'nullable|array'
         ]);
         $role->update($request->all());
         if($request->users){

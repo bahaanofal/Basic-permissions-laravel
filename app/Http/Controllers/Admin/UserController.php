@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 
@@ -54,17 +55,21 @@ class UserController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
-            'type' => 'required|in:super-admin,admin,user'
+            'type' => 'required|in:super-admin,admin,user',
+            'permissions' => 'nullable|array'
         ]);
+
+        // dd($request->permissions);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => '123456789',
+            'password' => Hash::make('123456789'),
             'type' => $request->type,
+            'permissions' => $request->permissions,
         ]);
-
         event(new Registered($user));
+
         return redirect(route('users.index'));
     }
 
@@ -91,9 +96,14 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $this->authorize('update', $user);
-
+        $userAbilities = [];
+        foreach($user->roles  as $role) {
+            $userAbilities = array_merge($userAbilities, $role->abilities);
+        }
+        
         return view('admin.users.edit', [
             'user' => $user,
+            'userAbilities' => $userAbilities,
         ]);
     }
 
@@ -108,19 +118,15 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $this->authorize('update', $user);
+        $user->permissions = [''];
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$id],
-            'type' => 'required|in:super-admin,admin,user'
+            'type' => 'required|in:super-admin,admin,user',
+            'permissions' => 'nullable|array'
         ]);
 
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'type' => $request->type,
-        ]);
-
-        event(new Registered($user));
+        $user->update($request->all());
         return redirect(route('users.index'));
     }
 

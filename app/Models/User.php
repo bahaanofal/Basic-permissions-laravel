@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'type',
+        'permissions'
     ];
 
     /**
@@ -41,6 +42,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'permissions' => 'json'
     ];
 
     public function roles()
@@ -50,6 +52,13 @@ class User extends Authenticatable
 
     public function hasAbility($ability)
     {
+        if(count($this->permissions) > 0){
+            foreach($this->permissions as $permission){
+                if(in_array($ability, $this->permissions)) {
+                    return true;
+                }
+            }
+        }
         foreach($this->roles as $role) {
             if(in_array($ability, $role->abilities)) {
                 return true;
