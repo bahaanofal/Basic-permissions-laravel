@@ -49,10 +49,10 @@
         @foreach(config('abilities') as $key => $label)
             <div class="mb-1">
                 <label for="">
-                    @if(in_array($key, $userAbilities))
-                    <input type="checkbox" name="permissions[]" value="{{$key}}" checked > 
+                    @if($userAbilities && in_array($key, $userAbilities))
+                    <input type="checkbox" name="permissions[]" value="{{$key}}" checked disabled> 
                     {{ $label }} => (by roles)
-                    @elseif(in_array($key, $user->permissions))
+                    @elseif($user->permissions && in_array($key, $user->permissions))
                     <input type="checkbox" name="permissions[]" value="{{$key}}" checked >
                     {{ $label }}
                     @else

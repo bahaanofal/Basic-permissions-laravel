@@ -53,10 +53,8 @@ class User extends Authenticatable
     public function hasAbility($ability)
     {
         if(count($this->permissions) > 0){
-            foreach($this->permissions as $permission){
-                if(in_array($ability, $this->permissions)) {
-                    return true;
-                }
+            if(in_array($ability, $this->permissions)) {
+                return true;
             }
         }
         foreach($this->roles as $role) {

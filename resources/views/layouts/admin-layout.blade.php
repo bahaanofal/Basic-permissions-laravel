@@ -13,6 +13,16 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
+    <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+
+
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
 
@@ -64,7 +74,7 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="{{route('users.index')}}" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                <a class="nav-link collapsed" href="{{route('users.index')}}">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Users</span>
                 </a>
@@ -72,13 +82,13 @@
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="{{route('roles.index')}}" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+                <a class="nav-link collapsed" href="{{route('roles.index')}}" >
                     <i class="fas fa-fw fa-wrench"></i>
                     <span>Roles</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="{{route('categories.index')}}" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+                <a class="nav-link collapsed" href="{{route('categories.index')}}" >
                     <i class="fas fa-fw fa-wrench"></i>
                     <span>Categories</span>
                 </a>
@@ -425,5 +435,73 @@
     <script src="{{asset('js/demo/chart-pie-demo.js')}}"></script>
 
 </body>
+<script type="text/javascript">
+  $(function () {
+    var table = $('.users_datatable').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "{{ route('users.index') }}",
+        columns: [
+            {data: 'id', name: 'id'},
+            {data: 'name', name: 'name'},
+            {data: 'email', name: 'email'},
+            {data: 'type', name: 'type'},
+            {data: 'created_at', name: 'created_at'},
+            {data: 'edit', name: 'edit', orderable: false, searchable: false},
+            {data: 'delete', name: 'delete', orderable: false, searchable: false},
+        ],
+        'buttons': [
+            // 'create',
+            // 'export',
+            // 'print',
+            // 'reset',
+            // 'reload',
+        ],
+    });
 
+    var table = $('.roles_datatable').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "{{ route('roles.index') }}",
+        columns: [
+            {data: 'id', name: 'id'},
+            {data: 'name', name: 'name'},
+            {data: 'abilities', name: 'abilities'},
+            {data: 'users', name: 'users'},
+            {data: 'created_at', name: 'created_at'},
+            {data: 'edit', name: 'edit', orderable: false, searchable: false},
+            {data: 'delete', name: 'delete', orderable: false, searchable: false},
+        ],
+        'buttons': [
+            // 'create',
+            // 'export',
+            // 'print',
+            // 'reset',
+            // 'reload',
+        ],
+    });
+
+    var table = $('.categories_datatable').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "{{ route('categories.index') }}",
+        columns: [
+            {data: 'id', name: 'id'},
+            {data: 'name', name: 'name'},
+            {data: 'slug', name: 'slug'},
+            {data: 'parent_id', name: 'parent_id'},
+            {data: 'created_at', name: 'created_at'},
+            {data: 'edit', name: 'edit', orderable: false, searchable: false},
+            {data: 'delete', name: 'delete', orderable: false, searchable: false},
+        ],
+        'buttons': [
+            // 'create',
+            // 'export',
+            // 'print',
+            // 'reset',
+            // 'reload',
+        ],
+    });
+  });
+</script>
 </html>

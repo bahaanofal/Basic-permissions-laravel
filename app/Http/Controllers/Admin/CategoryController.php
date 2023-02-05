@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use DataTables;
+use Illuminate\Support\Carbon;
 
 class CategoryController extends Controller
 {
@@ -17,17 +19,64 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $this->authorize('view-any', Category::class);
+        $categories = Category::all();
+        if ($request->ajax()) {
+            // $data = Category::all();
+            return DataTables::of($categories)->addIndexColumn()
+                ->editColumn('created_at', function($category){ 
+                    $formatedDate = Carbon::createFromFormat('Y-m-d H:i:s', $category->created_at)
+                                    ->format('d-m-Y h:i:s a'); 
+                    return $formatedDate; 
+                })
+                ->editColumn('parent_id', function($category){ 
+                    if($category->parent->name){
+                        return $category->parent->name;
+                    }else{
+                        return 'No Parent';
+                    }
+                })
+                ->addColumn('edit', function($category){
+                    $url = url(route('categories.edit', $category->id));
+                    $EditButton = '<a href="'.$url.'">Edit</a>';
+                    return $EditButton;
+                })
+                
+                ->addColumn('delete', function($category){
+                    $url = url(route('categories.destroy', $category->id));
+                    $csrf = csrf_token();
+                    $DelButton = '<form action="'.$url.'" method="post">
+                        <input type="hidden" name="_token" value="'.$csrf.'" />
+                        <input type="hidden" name="_method" value="delete">
+                        <button class="btn btn-danger btn-sm">del</button>
+                        </form>';
+                    return $DelButton;
+                })
+                ->rawColumns(['edit','delete'])
+                ->make(true);
+        }
 
-        $categories = Category::latest()->paginate();
-        $parents = Category::with('parent')->orderBy('name', 'asc')->get();
-        return view('admin.categories.index', [
-            'categories' => $categories,
-            'parents' => $parents
-        ]);
+        return view('admin.categories.index',compact('categories'));
     }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    // public function index()
+    // {
+    //     $this->authorize('view-any', Category::class);
+
+    //     $categories = Category::latest()->paginate();
+    //     $parents = Category::with('parent')->orderBy('name', 'asc')->get();
+    //     return view('admin.categories.index', [
+    //         'categories' => $categories,
+    //         'parents' => $parents
+    //     ]);
+    // }
 
     /**
      * Show the form for creating a new resource.

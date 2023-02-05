@@ -25,7 +25,6 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::resource('/admin/categories', CategoryController::class)->middleware('auth');
 Route::resource('/admin/roles', RolesController::class)->middleware('auth', 'can:'. Role::class);
 Route::resource('/admin/users', UserController::class)->middleware('auth');
